@@ -36,7 +36,7 @@ Supported panels:
 
 [^1]: Firmware 2.0+
 
-### Provided entities
+## Provided entities
 
 * [AlarmControlPanel](https://developers.home-assistant.io/docs/core/entity/alarm-control-panel/) for each configured area, with the ability to issue arm/disarm commands.
   This entity reports state (_disarmed_, _armed_away_, etc), and contains custom attributes _ready_to_arm_ (_no_|_home_|_away_), and a _faulted_points_ counter.
@@ -45,9 +45,18 @@ Supported panels:
   The history itself is stored on a `history` attribute, as there is a limit to how much text a sensor can store in its state.
 * [Switch](https://developers.home-assistant.io/docs/core/entity/switch) for each configured output. Note that for some panels, only outputs with the type set to "remote output" can be controlled via _Mode 2_ API.
 * [Lock](https://developers.home-assistant.io/docs/core/entity/lock) for each configured "door" (_Solution 4000_, _B Series_ and _G Series_ panels only).
-* A custom Service, called `set_date_time`, that can be used to set the time and date on the panel.
 
-### Authentication
+## Actions
+
+The integration provides the following actions.
+
+### Action: Set Panel Date & Time
+
+| Data attribute         | Optional | Description                                                                     |
+|------------------------|----------|---------------------------------------------------------------------------------|
+| `datetime`             | Yes      | The Date & Time to set. Defaults to the current date and time if it is not set. |
+
+## Authentication
 
 The primary means of authentication for the _Mode 2_ API is the _Automation_ passcode. It needs to be at least 10 characters long, and it is different from the _User_ code -- a shorter numeric pin used to arm/disarm the panel.
 The integration will prompt for the required passcodes, which depend on the panel type.
@@ -63,3 +72,9 @@ The integration will prompt for the required passcodes, which depend on the pane
 
 ⚠️ Since the _Mode 2_ automation user has "superuser" privileges, it bypasses the regularly-configured alarm pin: you will _not_ be prompted for a _User_ code when arming/disaming through the integration.
 The integration also supports (optionally) setting a Home Assistant-local pin to protect these operations -- it does not need to match any of the codes configured on the panel.
+
+## Removing the integration
+
+This integration follows standard integration removal. No extra steps are required.
+
+{% include integrations/remove_device_service.md %}
